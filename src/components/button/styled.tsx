@@ -1,13 +1,10 @@
 import styled from "styled-components";
 
 export const PrimaryStyled = styled.button`
-  padding: 8px 16px;
-  background: #474747;
-  color: white;
-  border: none;
+  padding: 8px 40px;
+  text-transform: uppercase;
+  font-size: 16px;
+  border: 2px solid #bdbdbd;
   border-radius: 8px;
   cursor: pointer;
-  &:hover {
-    color: #5cb85c84;
-  }
 `;

@@ -20,24 +20,22 @@ export const Table = styled.table`
 `;
 
 export const TableHead = styled.thead`
-  color: #ffffff;
-  background: #474747;
-  th:nth-child(odd) {
-    color: #ffffff;
-  }
+  background: #d4d4d4;
 `;
 
 export const HeadCell = styled.th`
   text-align: center;
-  color: #ffffff;
-  padding: 8px;
+  color: #000;
+  padding: 16px;
+  border: 1px solid #b8b8b8;
   @media (max-width: 767px) {
     display: block;
   }
 `;
 
 export const TableBody = styled.tbody`
-  tr:nth-child(even) {
+  td:first-child {
+    font-weight: 800;
     background: #f8f8f8;
   }
   overflow-y: auto;
@@ -53,18 +51,9 @@ export const HeadRow = styled.tr``;
 
 export const BodyCell = styled.td`
   text-align: center;
-  border-right: 1px solid #f8f8f8;
-  padding: 8px;
+  border: 1px solid #b8b8b8;
+  padding: 16px;
   @media (max-width: 767px) {
     display: block;
-  }
-`;
-
-export const Form = styled.form`
-  display: flex;
-  flex-direction: column;
-  align-self: center;
-  & > * {
-    margin: 18px;
   }
 `;
