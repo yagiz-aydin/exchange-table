@@ -1,6 +1,6 @@
 # Let's Start
 
-This project is created with [Create React App](https://github.com/facebook/create-react-app). Ejected for requirement of some dependency updates
+This project is created with [@yagiz-aydin/boilerplate-cra](https://github.com/yagiz-aydin/boilerplate-cra)
 
 ## Requirements
 
