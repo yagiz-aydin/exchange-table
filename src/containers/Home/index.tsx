@@ -1,9 +1,12 @@
-import React from 'react';
+import React from "react";
 import { DefaultLayout } from "../../layouts";
-import { Button, DataTable } from '../../components';
-import { IColumnProps } from '../../components/table/types';
-import { CURRENCY } from '../../types/enum';
-import {ButtonList, SelectedCurrencyText} from "./styled";
+import { Button, DataTable } from "../../components";
+import { IColumnProps } from "../../components/table/types";
+import { CurrencyNames, CurrencyTypes, ECurrency } from "../../types/enum";
+import { ButtonList, SelectedCurrencyText } from "./styled";
+import { useActionContext } from "../../context";
+import { IHistoryList } from "../../context/types";
+import { checkNumInterval, dateFormatter } from "../../utils";
 
 const columns: Array<IColumnProps> = [
   {
@@ -24,62 +27,67 @@ const columns: Array<IColumnProps> = [
   },
 ];
 
-const mockData = [
-  {
-    code: "try",
-    name: "Turkish Lira",
-    date: "2023-05-30",
-    value: "20,15",
-  },
-  {
-    code: "eur",
-    name: "Euro",
-    date: "2023-05-30",
-    value: "0,93",
-  },
-  {
-    code: "jpy",
-    name: "Japanese Yen",
-    date: "2023-05-30",
-    value: "140",
-  },
-  {
-    code: "gbp",
-    name: "Pound Sterling",
-    date: "2023-05-30",
-    value: "0,81",
-  },
-  {
-    code: "cny",
-    name: "Chinese Yuan",
-    date: "2023-05-30",
-    value: "7,06",
-  },
-];
 const Home = () => {
-  const currencyList = Object.values(CURRENCY);
+  const currencyList = Object.values(ECurrency);
 
-  const [selectedCurrency, setSelectedCurrency] = React.useState<string>(CURRENCY.usd); 
+  const [selectedCurrency, setSelectedCurrency] = React.useState<ECurrency>(
+    ECurrency.USD
+  );
+
+  const { getCurrency, history } = useActionContext();
 
   React.useEffect(() => {
-    //Make some request to get selected currency
+    const getDatas = async (currency: ECurrency) => {
+      await getCurrency(currency);
+    };
+    getDatas(selectedCurrency);
   }, [selectedCurrency]);
 
 
-    return (
-      <DefaultLayout>
-        <ButtonList>
-          {currencyList.map((currency) =>
-            selectedCurrency === currency ? (
-              <SelectedCurrencyText>1 {currency}</SelectedCurrencyText>
-            ) : (
-              <Button.Primary key={currency} text={currency} onClick={() => setSelectedCurrency(currency)} />
-            )
-          )}
-        </ButtonList>
-        <DataTable loading={false} tableDatas={mockData} columns={columns} />
-      </DefaultLayout>
-    );
-}
+  const tableDataFormatter = (history: IHistoryList) => {
+    if (selectedCurrency && history[selectedCurrency]) {
+      const historyDatas = Object.values(history[selectedCurrency]);
+      const tableDatas = Object.keys(historyDatas[0]?.results).map((i) => {
+        const currentResult = historyDatas[0].results[i as CurrencyTypes];
+        const previousResult = historyDatas[1]?.results[i as CurrencyTypes];
+        const value = previousResult
+          ? checkNumInterval(currentResult, previousResult)
+          : currentResult;
+          
+        return {
+          code: i,
+          name: CurrencyNames[i as CurrencyTypes],
+          date: dateFormatter(historyDatas[0].updated),
+          value,
+        };
+      });
+      return tableDatas;
+    }
+  };
+
+  return (
+    <DefaultLayout>
+      <ButtonList>
+        {currencyList.map((currency) =>
+          selectedCurrency === currency ? (
+            <SelectedCurrencyText key={currency}>1 {currency}</SelectedCurrencyText>
+          ) : (
+            <Button.Primary
+              key={currency}
+              text={currency}
+              onClick={() => setSelectedCurrency(currency)}
+            />
+          )
+        )}
+      </ButtonList>
+      <DataTable
+        loading={false}
+        tableDatas={tableDataFormatter(history) || []}
+        columns={columns}
+        dynamicValueKey="value"
+      />
+    </DefaultLayout>
+  );
+};
 
 export default Home;
