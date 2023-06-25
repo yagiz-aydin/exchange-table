@@ -12,10 +12,9 @@ export function checkNumInterval(first: number, second: number) {
   return { value: first, status };
 }
 
-
-export function dateFormatter(inputDate: string){
-  const [datePart, timePart] = inputDate.split(" ");
+export function dateFormatter(inputDate: string) {
+  const [datePart] = inputDate.split(" ");
   const [year, month, day] = datePart.split("-");
-  const formattedDate = `${year}-${month}-${day}-${timePart}`;
+  const formattedDate = `${year}-${month}-${day}`;
   return formattedDate;
 }

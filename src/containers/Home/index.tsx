@@ -4,7 +4,7 @@ import { Button, DataTable } from "../../components";
 import { IColumnProps } from "../../components/table/types";
 import { CurrencyNames, CurrencyTypes, ECurrency } from "../../types/enum";
 import { ButtonList, SelectedCurrencyText } from "./styled";
-import { useActionContext } from "../../context";
+import { useActionContext } from "../../context/action";
 import { IHistoryList } from "../../context/types";
 import { checkNumInterval, dateFormatter } from "../../utils";
 
@@ -37,12 +37,8 @@ const Home = () => {
   const { getCurrency, history } = useActionContext();
 
   React.useEffect(() => {
-    const getDatas = async (currency: ECurrency) => {
-      await getCurrency(currency);
-    };
-    getDatas(selectedCurrency);
+    getCurrency(selectedCurrency);
   }, [selectedCurrency]);
-
 
   const tableDataFormatter = (history: IHistoryList) => {
     if (selectedCurrency && history[selectedCurrency]) {
@@ -53,7 +49,7 @@ const Home = () => {
         const value = previousResult
           ? checkNumInterval(currentResult, previousResult)
           : currentResult;
-          
+
         return {
           code: i,
           name: CurrencyNames[i as CurrencyTypes],
@@ -65,12 +61,21 @@ const Home = () => {
     }
   };
 
+  React.useEffect(() => {
+    const interval = setInterval(() => {
+      getCurrency(selectedCurrency);
+    }, 60000);
+    return () => clearInterval(interval);
+  }, []);
+
   return (
     <DefaultLayout>
       <ButtonList>
         {currencyList.map((currency) =>
           selectedCurrency === currency ? (
-            <SelectedCurrencyText key={currency}>1 {currency}</SelectedCurrencyText>
+            <SelectedCurrencyText key={currency}>
+              1 {currency}
+            </SelectedCurrencyText>
           ) : (
             <Button.Primary
               key={currency}
@@ -81,6 +86,7 @@ const Home = () => {
         )}
       </ButtonList>
       <DataTable
+        type="currency"
         loading={false}
         tableDatas={tableDataFormatter(history) || []}
         columns={columns}

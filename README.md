@@ -8,12 +8,15 @@ This project is created with [@yagiz-aydin/boilerplate-cra](https://github.com/y
 - Npm version ^v9.6.7 Recommended Version v9.7.1
 
 ## Environment Variables
+
 .env file is deleted or lost, add .env file on base structure add creadential bellow.
 
-```REACT_APP_API_URL=https://cdn.jsdelivr.net/gh/fawazahmed0/currency-api@```
+`REACT_APP_API_URL=https://cdn.jsdelivr.net/gh/fawazahmed0/currency-api@`
+
 ## Available Scripts
 
 In the project directory, you can run:
+
 ### `npm install`
 
 Install all dependencies before starting the application.

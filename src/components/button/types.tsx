@@ -1,6 +1,6 @@
-interface IButton{
-    disabled?: boolean;
-    type?: "button" | "submit" | "reset";
+interface IButton {
+  disabled?: boolean;
+  type?: "button" | "submit" | "reset";
 }
 
 export interface IPrimary extends IButton {

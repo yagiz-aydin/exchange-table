@@ -3,6 +3,7 @@ import styled from "styled-components";
 export const TableContainer = styled.div`
   border-radius: 12px;
   background: white;
+  max-width: 800px;
 `;
 
 export const Table = styled.table`

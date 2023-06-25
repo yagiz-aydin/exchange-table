@@ -13,5 +13,8 @@ const requests = {
 
 // /fetch-multi?api_key=YOUR_API_KEY
 export const api = {
-  currency: ({from, to}: FetchMultiDTO) => requests.get(`/fetch-multi?api_key=${process.env.REACT_APP_API_KEY}&from=${from}&to=${to}`),
+  currency: ({ from, to }: FetchMultiDTO) =>
+    requests.get(
+      `/fetch-multi?api_key=${process.env.REACT_APP_API_KEY}&from=${from}&to=${to}`
+    ),
 };
