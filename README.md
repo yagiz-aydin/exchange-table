@@ -11,7 +11,8 @@ This project is created with [@yagiz-aydin/boilerplate-cra](https://github.com/y
 
 .env file is deleted or lost, add .env file on base structure add creadential bellow.
 
-`REACT_APP_API_URL=https://cdn.jsdelivr.net/gh/fawazahmed0/currency-api@`
+`REACT_APP_API_URL=https://api.fastforex.io`
+`REACT_APP_API_KEY=// Go to [fastforex.io](fastforex.io) to register after that get a token for full free access 7 day trial`
 
 ## Available Scripts
 
