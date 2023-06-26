@@ -45,11 +45,12 @@ const Home = () => {
       const historyDatas = Object.values(history[selectedCurrency]);
       const tableDatas = Object.keys(historyDatas[0]?.results).map((i) => {
         const currentResult = historyDatas[0].results[i as CurrencyTypes];
-        const previousResult = historyDatas[1]?.results[i as CurrencyTypes];
-        const value = previousResult
-          ? checkNumInterval(currentResult, previousResult)
+        const firstResult = historyDatas[historyDatas.length-1]?.results[i as CurrencyTypes];
+        const value = firstResult
+          ? checkNumInterval(currentResult, firstResult)
           : currentResult;
 
+        console.table(history);
         return {
           code: i,
           name: CurrencyNames[i as CurrencyTypes],

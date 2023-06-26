@@ -1,5 +1,5 @@
-import React from "react";
-import { ITableProps, ITableRow, ITableTypeSwitch } from "./types";
+import React from 'react'
+import { ITableProps, ITableRow, ITableTypeSwitch } from './types'
 import {
   TableContainer,
   Table,
@@ -9,8 +9,8 @@ import {
   BodyRow,
   BodyCell,
   HeadRow,
-} from "./styled";
-import { CurrencySymbols, ECurrency } from "../../types/enum";
+} from './styled'
+import { CurrencySymbols, ECurrency } from '../../types/enum'
 
 const DataTable = ({
   tableDatas,
@@ -18,19 +18,8 @@ const DataTable = ({
   dynamicValueKey,
   type,
 }: ITableProps) => {
-  const TableTypeSwitch = ({ type, row, key }: ITableTypeSwitch) => {
-    switch (type) {
-      case "data":
-        return <Row row={row} key={key} />;
-      case "currency":
-        return <CurrencyRow row={row} key={key} />;
-      default:
-        return <Row row={row} key={key} />;
-    }
-  };
-
   const Row = ({ row }: { row: ITableRow }) => {
-    const _row = Object.keys(row);
+    const _row = Object.keys(row)
     return (
       <BodyRow>
         {_row.map((_, key) => (
@@ -39,28 +28,28 @@ const DataTable = ({
           </BodyCell>
         ))}
       </BodyRow>
-    );
-  };
+    )
+  }
 
   const CurrencyRow = ({ row }: { row: ITableRow }) => {
-    const _row = Object.keys(row);
+    const _row = Object.keys(row)
 
     const isCellCurrency = (key: number) =>
-      typeof row[columns[key].value as keyof typeof row] === "object";
+      typeof row[columns[key].value as keyof typeof row] === 'object'
 
     const currencyFormatter = (key: number) =>
       isCellCurrency(key)
         ? `${CurrencySymbols[row.code as ECurrency]} ${
             row[dynamicValueKey as string].value
           }`
-        : row[columns[key].value as keyof typeof row];
+        : row[columns[key].value as keyof typeof row]
 
     const currencyCellColor = (key: number) =>
       isCellCurrency(key) && {
         background: row[dynamicValueKey as string].status,
-        fontSize: "18px",
-        fontWeight: "600",
-      };
+        fontSize: '18px',
+        fontWeight: '600',
+      }
 
     return (
       <BodyRow>
@@ -70,8 +59,8 @@ const DataTable = ({
           </BodyCell>
         ))}
       </BodyRow>
-    );
-  };
+    )
+  }
 
   return (
     <TableContainer>
@@ -84,13 +73,20 @@ const DataTable = ({
           </HeadRow>
         </TableHead>
         <TableBody>
-          {tableDatas.map((row, key) => (
-            <TableTypeSwitch type={type} row={row} key={key} />
-          ))}
+          {tableDatas.map((row, key) => {
+            switch (type) {
+              case 'data':
+                return <Row row={row} key={key} />
+              case 'currency':
+                return <CurrencyRow row={row} key={key} />
+              default:
+                return <Row row={row} key={key} />
+            }
+          })}
         </TableBody>
       </Table>
     </TableContainer>
-  );
-};
+  )
+}
 
-export default DataTable;
+export default DataTable
